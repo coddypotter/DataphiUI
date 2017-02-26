@@ -1,3 +1,90 @@
-<h1>
-  {{title}}
-</h1>
+<nav style="background-color: #512dab;">
+  <div class="nav-wrapper">
+    <a href="#!" class="brand-logo" style="padding-left: 10px;">Patient Dashboard</a>
+    <ul class="right hide-on-med-and-down">
+      <li><a materialize="tooltip" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click to add a new patient" (click)="addPatient()"><i class="material-icons">add</i></a></li>
+    </ul>
+  </div>
+</nav>
+<section class="container">
+  <div class="row" *ngIf="allPatients.length > 0">
+    <div class="col m2 l2"></div>
+    <div class="col s12 m8 l8">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="search" [(ngModel)]="searchKey" type="text" class="validate">
+          <label for="search">Search</label>
+        </div>
+      </div>
+      <div class="row">
+        <ul class="collection">
+          <li class="collection-item avatar" *ngFor="let patient of allPatients | Search:searchKey; let i of index">
+            <!--<img src="images/yuna.jpg" alt="" class="circle">-->
+            <span class="title">{{patient.first_name | capitalize}} {{patient.last_name | capitalize}}</span>
+            <p>Age : {{patient.age}} <br> Phone : {{patient.phone}}
+            </p>
+            <a (click)="deletePatient(patient.id, i)" class="secondary-content" style="cursor: pointer;"><i class="material-icons" >delete</i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col m2 l2"></div>
+  </div>
+  <div class="row" *ngIf="allPatients.length == 0" style="text-align: center; margin-top: 20%; font-size: 16px; font-weight: 600;">
+    No Patients Found. 
+  </div>
+</section>
+<a class="btn-floating btn-large waves-effect waves-light red hide-on-med-and-up" style="bottom: 30px; right: 30px; position: absolute;" (click)="addPatient()"><i class="material-icons">add</i></a>
+<div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+  <div class="modal-content">
+    <h4>Add Patient</h4>
+    <div>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="first_name" type="text" #f class="validate">
+              <label for="first_name">First Name</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="last_name" type="text" #l class="validate">
+              <label for="last_name">Last Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m3 l3">
+              <input id="first_name" type="text" #age class="validate">
+              <label for="first_name">Age</label>
+            </div>
+            <div class="input-field col s12 m5 l5">
+              <input id="first_name" type="text" #dob class="validate">
+              <label for="first_name">Date Of Birth (DD/MM/YYYY)</label>
+            </div>
+            <div class="input-field col s12 m5 l4">
+              <select materialize="material_select" #gender [materializeSelectOptions]="selectOptions">
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="phone" type="text" #phone class="validate">
+              <label for="phone">Phone</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="text" type="text" #free class="validate">
+              <label for="text">Free Text</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a class="waves-effect waves-green btn-flat" (click)="closeModal()">Close</a>
+    <a class="modal-action waves-effect waves-green btn-flat" (click)="add(f.value, l.value, age.value, dob.value, gender.value, phone.value,  free.value)">Add</a>
+  </div>
+</div>
