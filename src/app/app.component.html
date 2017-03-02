@@ -18,7 +18,7 @@
       </div>
       <div class="row">
         <ul class="collection">
-          <li class="collection-item avatar" *ngFor="let patient of allPatients | Search:searchKey; let i of index">
+          <li class="collection-item avatar" *ngFor="let patient of allPatients | Search:searchKey; let i = index">
             <!--<img src="images/yuna.jpg" alt="" class="circle">-->
             <span class="title">{{patient.first_name | capitalize}} {{patient.last_name | capitalize}}</span>
             <p>Age : {{patient.age}} <br> Phone : {{patient.phone}}
@@ -76,7 +76,7 @@
           <div class="row">
             <div class="input-field col s12">
               <input id="text" type="text" #free class="validate">
-              <label for="text">Free Text</label>
+              <label for="text">Free Text (Optional)</label>
             </div>
           </div>
         </form>

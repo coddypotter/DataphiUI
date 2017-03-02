@@ -31,6 +31,25 @@ export class AppComponent {
 
     }
   }
+  validatePhone(phone) {
+    var reg = /^\d{10}$/;
+    if (phone.match(reg)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  validateAge(age){
+    var reg = /^[0-9]*$/;///^[0-9]*$
+    if (age.match(reg) && parseInt(age) < 100 && parseInt(age) > 1) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
   error(err) {
 
   }
@@ -39,17 +58,15 @@ export class AppComponent {
   }
   add(fname, lname, age, dob, gender, phone, free) {
     // console.log(fname, lname, age, dob, gender, phone, free);
-
     var sdate = moment(dob, 'DD/MM/YYYY', true).format();//moment(dob).format("DD/MM/YYYY");
-    
     if (fname == "" || age == '' || dob == '' || phone == '') {
       this.modalActions.emit({ action: "toast", params: ['Please fill all the fields before submitting', 4000] });
-    } else if (age > 100 || (age) < 1) {
+    } else if (!this.validateAge(age)){
       this.modalActions.emit({ action: "toast", params: ['Please enter a valid age', 4000] });
     } else if (sdate == "Invalid date") {
       this.modalActions.emit({ action: "toast", params: ['Please enter valid date', 4000] });
-    } else if (phone.length != 10) {
-      this.modalActions.emit({ action: "toast", params: ['Please enter 10 digit phone number', 4000] });
+    } else if (!this.validatePhone(phone)) {
+      this.modalActions.emit({ action: "toast", params: ['Please enter 10 digit valid phone number', 4000] });
     } else {
       var json = '{\
                 "first_name": "'+ fname + '",\
