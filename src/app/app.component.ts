@@ -39,14 +39,14 @@ export class AppComponent {
   }
   add(fname, lname, age, dob, gender, phone, free) {
     // console.log(fname, lname, age, dob, gender, phone, free);
-    var today = new Date();
-    var date = dob;
-    date = date.split('/');
+
+    var sdate = moment(dob, 'DD/MM/YYYY', true).format();//moment(dob).format("DD/MM/YYYY");
+    
     if (fname == "" || age == '' || dob == '' || phone == '') {
       this.modalActions.emit({ action: "toast", params: ['Please fill all the fields before submitting', 4000] });
-    } else if (age > 100 || age < 1) {
+    } else if (age > 100 || (age) < 1) {
       this.modalActions.emit({ action: "toast", params: ['Please enter a valid age', 4000] });
-    } else if (date[0] > 31 || date[1] > 12 || date[2] > today.getFullYear()) {
+    } else if (sdate == "Invalid date") {
       this.modalActions.emit({ action: "toast", params: ['Please enter valid date', 4000] });
     } else if (phone.length != 10) {
       this.modalActions.emit({ action: "toast", params: ['Please enter 10 digit phone number', 4000] });
